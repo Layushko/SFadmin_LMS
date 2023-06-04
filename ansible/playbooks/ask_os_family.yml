@@ -1,0 +1,13 @@
+---
+- hosts: ubuntu
+  tasks:
+  - name: Printing OS Family
+    debug:
+      msg: "OS Family is {{ansible_os_family}}"
+
+  - name: Check Zabbix agent status
+    shell: systemctl status zabbix-agent.service
+    register: result
+  - name: show result
+    debug:
+      var: result.stdout_lines

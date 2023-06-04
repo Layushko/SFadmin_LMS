@@ -1,0 +1,18 @@
+---
+- hosts: ubuntu
+  become: yes 
+  tasks:
+
+  - name: Install Redis DB
+    ansible.builtin.apt:
+      name: redis
+      update_cache: yes 
+    notify:
+      redis systemd
+
+  handlers:
+  - name: redis systemd
+    systemd:
+      name: redis
+      enabled: yes 
+      state: started
