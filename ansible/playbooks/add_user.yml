@@ -1,0 +1,10 @@
+---
+- hosts: ubuntu
+  become: yes
+  tasks:
+
+  - name: Add user to remote hosts
+    user: name=test shell=/bin/bash
+
+  - name: Add SSH keys to remote hosts
+    authorized_key: user=test key="{{ lookup('file', "/etc/ansible/common/id_rsa.pub") }}"

@@ -1,0 +1,23 @@
+---
+ - hosts: ubuntu
+   become: yes
+   tasks:
+    - name: Install script
+      template:
+        src: /etc/ansible/common/pattern.sh
+        dest: /home/mentor/pattern.sh
+        mode: 0777
+    - name: Line test
+      lineinfile:
+        path: /home/mentor/pattern.sh
+        insertafter: EOF
+        line: "{{ item }}"
+        state: present
+      with_items:
+      - 'date &>> /var/log/web.log'
+      - 'sudo nginx -t &>>/var/log/web.log'
+    - name: nginx cron
+      cron:
+        name: "cron script"
+        minute: "*/2"
+        job: "/home/mentor/pattern.sh > /dev/null"
